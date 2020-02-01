@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>To Do List</title>
+    <script src="angularjs/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/weatherService.js"></script>
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/treasure-overlay-spinner.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/treasure-overlay-spinner.min.css">
+</head>
+
+<body ng-app="toDoList">
+    <div class="container" ng-controller="ToDoController">
+      <div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-5 col-lg-offset-3 col-lg-5">
+        <h2>ToDo List</h2>
+        <!-- Form Starts Here -->
+        <div class="form">
+            <div class="input-group">
+                <span>Search</span>
+                <input type="text" class="form-control" ng-model="search">
+            </div><!-- /input-group -->
+            <br>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="task">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="addTask()"><span
+                    class="glyphicon glyphicon-plus"></span> Submit</button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
+        <hr/>
+        <!-- Form Ends Here -->
+  
+        <!-- Task List Starts Here -->
+        <ul class="list-group" ng-show="tasks.length > 0">
+          <li class="list-group-item clearfix task" ng-repeat="todo in tasks | filter : search" ng-class="{disabled: todo.done}"> 
+            <p class="lead">{{todo.task}}</p>
+            <div>
+              <span class="pull-right">
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" 
+                  ng-click="editTask($index)"></span></button>
+                <button class="btn btn-primary btn-xs" ng-show="!todo.done"><span class="glyphicon glyphicon-ok" 
+                  ng-click="doneTask($index)"></span></button>
+                <button class="btn btn-primary btn-xs" ng-show="todo.done"><span class="glyphicon glyphicon-repeat" 
+                  ng-click="unDoneTask($index)"></span></button>
+                <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" 
+                  ng-click="deleteTask($index)"></span></button>
+              </span>
+            </div>
+          </li>
+        </ul>
+        <!-- Task List Ends Here -->
+      </div>
+    </div>
+
+    <div class="container" ng-controller="main as vm">
+        <div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-5 col-lg-offset-3 col-lg-5">
+            <form name="weatherForm">
+                <input type="search" placeholder="City" required ng-model="vm.query" />
+                <input type="submit" value="Go" ng-click="vm.Search()" />
+            </form>
+
+            <h1>{{vm.City}} Weather</h1>
+    
+            <div ng-include="'weatherDisplay.html'" ng-show="vm.ValidDataLoaded"></div>
+            <p class="error">
+              {{vm.error}}
+            </p>
+        
+            
+        </div>
+    </div>
+</body>
+</html>
